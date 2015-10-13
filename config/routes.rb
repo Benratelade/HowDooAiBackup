@@ -1,9 +1,20 @@
 Rails.application.routes.draw do
   root 'pages#home'
 
+  # login routes
   get 'login'     => 'sessions#new'
   post 'login'    => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
+
+  # Create connectors routes
+  get 'connectors/new'       => 'connectors#new'
+  post 'connectors'   => 'connectors#create'
+  get 'connectors/index'   => 'connectors#index'
+
+  # Ftp Connectors routes
+  get '/ftp_connectors/new' => 'ftp_connectors#new'
+  post '/ftp_connectors/' => 'ftp_connectors#create'
+  get '/ftp_connectors/index' => 'ftp_connectors#index'
 
   resources :users
   # The priority is based upon order of creation: first created -> highest priority.
