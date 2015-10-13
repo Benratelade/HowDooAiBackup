@@ -1,0 +1,11 @@
+<%= form_for @ftp_connector do |f| %>
+	<%= f.label "username" %>
+	<%= f.text_field "username" %>
+	<%= f.label "password" %>
+	<%= f.text_field "password" %>
+	<%= f.label "host" %>
+	<%= f.text_field "host" %>
+	<%= f.label "port" %>
+	<%= f.text_field "port" %>
+	<%= f.submit "Create new connector" %>
+<% end %>

@@ -1,0 +1,14 @@
+<h2>Connectors</h2>
+
+<table>
+	<thead>
+		<td>Username</td>
+		<td>Password</td>
+	</thead>
+	<% @connectors.each do |connector| %>
+		<tr>
+			<td><%= connector.username %></td>
+			<td><%= connector.password %></td>
+		</tr>
+	<% end %>
+</table>

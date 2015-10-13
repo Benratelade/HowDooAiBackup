@@ -1,0 +1,18 @@
+<h2>Ftp Connectors</h2>
+
+<table>
+	<thead>
+		<td>Username</td>
+		<td>Password</td>
+		<td>Host</td>
+		<td>Port</td>
+	</thead>
+	<% @ftp_connectors.each do |connector| %>
+		<tr>
+			<td><%= connector.username %></td>
+			<td><%= connector.password %></td>
+			<td><%= connector.host %></td>
+			<td><%= connector.port %></td>
+		</tr>
+	<% end %>
+</table>
