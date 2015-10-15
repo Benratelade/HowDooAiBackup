@@ -1,18 +1,22 @@
 class FtpConnector < Connector
 	require 'net/ftp'
-	after_initialize :connect_to_server, :set_download_location
+	after_initialize :connect_to_server
 	attr_accessor :connection
 
 	def connect_to_server
 		@connection = Net::FTP.new(self.host, self.username, self.password)
+		@connection.passive = true
 	end
 
-	def download_item(item)
+	def download_item(item, is_first_item = true)
+		initiate_download if is_first_item
+		connect_to_server if @connection.closed? 
 		if is_folder?(item)
 			download_folder(item)
 		else
 			download_file(item)
 		end
+		Dir.chdir('..') if Dir.getwd == @download_directory
 	end
 
 	def download_file(filename)
@@ -26,7 +30,7 @@ class FtpConnector < Connector
 		@connection.chdir(foldername)
 		items = @connection.nlst
 		items.each do |item|
-			download_item(item) unless item == '.' || item == '..'
+			download_item(item, false) unless item == '.' || item == '..'
 		end
 		@connection.chdir('..')
 		Dir.chdir('..')
@@ -38,12 +42,7 @@ class FtpConnector < Connector
 			@connection.chdir('..')
 			return true
 		rescue Net::FTPPermError
-				return false 
+			return false 
 		end
-	end
-
-	private
-	def set_download_location
-		Dir.chdir('temp/downloads/')
 	end
 end
