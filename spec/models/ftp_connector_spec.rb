@@ -3,22 +3,22 @@ require 'rails_helper'
 RSpec.describe FtpConnector, type: :model do
 	before(:all) do
 		@ftp_connector = create(:ftp_connector)
-		@ftp_connection = @ftp_connector.connect_to_server
+		@ftp_connector.connect_to_server
 		@download_location = 'temp/downloads/'
 		@path = Dir.getwd
 	end
 
 	after(:all) do
-		@ftp_connection.close
+		@ftp_connector.connection.close
 	end
 	after(:each) do
 		Dir.chdir(@path)
 	end
 
   describe '#connect_to_server' do
-	it "returns an open connection to the ftp server" do 
-		expect(@ftp_connection).to be_a(Net::FTP)
-		expect(@ftp_connection.closed?).to eq(false)
+	it "Initiates an Ftp connection to the server in @connection" do 
+		expect(@ftp_connector.connection).to be_a(Net::FTP)
+		expect(@ftp_connector.connection.closed?).to eq(false)
 	end
   end
 
@@ -40,7 +40,7 @@ RSpec.describe FtpConnector, type: :model do
 
   	it "creates a local copy of a folder's contents" do
 		foldername = 'test'
-  		remote_items = @ftp_connection.nlst('test')
+  		remote_items = @ftp_connector.list_items
   		@ftp_connector.download_folder(foldername)
   		local_items = Dir.entries(@download_location + foldername)
 		expect(local_items).to eq(remote_items)

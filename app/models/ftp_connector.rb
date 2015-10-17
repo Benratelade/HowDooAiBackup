@@ -11,14 +11,32 @@ class FtpConnector < Connector
 	def download_item(item, is_first_item = true)
 		initiate_download if is_first_item
 		connect_to_server if @connection.closed? 
-		if is_folder?(item)
+		if is_remote_folder?(item)
 			download_folder(item)
 		else
 			download_file(item)
 		end
-		Dir.chdir('..') if Dir.getwd == @download_directory
+		if Dir.getwd == @download_directory
+			Dir.chdir('..')
+			return @download_directory
+		end
 	end
 
+	def upload_item(item, is_first_item = true)
+		connect_to_server if @connection.closed? 
+
+		if File.directory?(item)
+			upload_folder(item)
+		else
+			upload_file(item)
+		end
+	end
+
+	def list_items
+		@connection.nlst
+	end
+
+	private
 	def download_file(filename)
 		@connection.getbinaryfile(filename,filename)
 	end
@@ -36,7 +54,25 @@ class FtpConnector < Connector
 		Dir.chdir('..')
 	end
 
-	def is_folder?(filename)
+	def upload_file (filename)
+		@connection.put(filename)
+	end
+
+	def upload_folder (foldername)
+		@connection.mkdir(foldername)
+		@connection.chdir(foldername)
+		Dir.chdir(foldername)
+		Dir.foreach('.') do |item|
+			unless File.basename(item) == '.' or File.basename(item) == '..'
+			 	puts File.basename(item)
+			 	upload_item(item)
+			 end 
+		end
+		Dir.chdir('..')
+		@connection.chdir('..')
+	end
+
+	def is_remote_folder?(filename)
 		begin
 			@connection.chdir(filename)
 			@connection.chdir('..')

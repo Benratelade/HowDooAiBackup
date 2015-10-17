@@ -3,6 +3,12 @@ class Connector < ActiveRecord::Base
 
 	validates_presence_of :user_id
 
+	def download_item(item)
+	end
+
+	def upload_item(item)
+	end
+
 	private
 	def move_to_download_location
 		rails_path = Rails.root.to_s
