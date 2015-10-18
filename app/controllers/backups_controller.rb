@@ -10,12 +10,15 @@ class BackupsController < ApplicationController
 
 	def create
 		@backup = Backup.new(backup_params)
-		current_user.backupsre << @backup
-		if @backup.save
-			redirect_to '/backups/index'
-		else
-			redirect_to '/backups/new'
-		end
+		current_user.backups << @backup
+			if @backup.save
+				if params[:commit] == "Backup now"
+					@backup.backup
+				end
+				redirect_to '/backups/index'
+			else
+				redirect_to '/backups/new'
+			end
 	end
 
 	def backup_now

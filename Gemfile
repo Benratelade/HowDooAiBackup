@@ -32,6 +32,12 @@ gem 'validates_email_format_of'
 # Asynchrnous jobs
 gem 'delayed_job_active_record'
 
+# jQuery UI
+gem 'jquery-ui-rails'
+
+# Daemons
+gem 'daemons'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

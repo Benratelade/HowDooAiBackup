@@ -14,3 +14,12 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require jquery-ui
+
+$(function(){
+	$( "#selectable" ).selectable({
+		selected: function(event, ui) {
+			$("input[type=hidden][class^='selectable-']").val($(ui.selected).attr('data'));
+		}
+	});
+})

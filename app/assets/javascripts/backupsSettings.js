@@ -1,17 +1,23 @@
-function displayConnectorContents(connector_id) {
+function displayConnectorContents(connectorId) {
 	$.ajax({
 		type: 'get', 
 		url: 'http://' + location.host + '/connectors/list', 
 		data: {
-			id: connector_id
+			id: connectorId
 		}, 
 		success: function(result){
-			responseHtml = "<table>"; 
+			responseHtml = ''; 
 			$.each(result, function(index, item) {
-				responseHtml += "<tr><td>" + item + "</td><td><a>Backup now</a></td></tr>" ; 
-			})
-			responseHtml += "</table>"; 
-			$("#connector-contents").html(responseHtml); 
+				responseHtml += '<tr data="' + item + '"><td>' + item + "</td></tr>" ; 
+			}) 
+			$("#connector-contents tbody").html(responseHtml); 
 		}
 	})
 }
+
+$(document).ready(function(){
+		$("#source-connector select").change(function() {
+		connectorId = $(this).val(); 
+		displayConnectorContents(connectorId);
+	}); 
+})

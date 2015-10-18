@@ -12,8 +12,18 @@
  *
  *= require_tree .
  *= require_self
+ *= require jquery-ui
  */
 
 body { 
 	margin: 0;
 }
+
+#selectable .ui-selecting {
+    background: #375497;
+    color: white;
+  }
+  #selectable .ui-selected {
+    background: #375497;
+    color: white;
+  }
