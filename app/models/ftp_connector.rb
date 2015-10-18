@@ -23,7 +23,9 @@ class FtpConnector < Connector
 	end
 
 	def upload_item(item, is_first_item = true)
+		byebug
 		connect_to_server if @connection.closed? 
+		item = File.basename(item)
 
 		if File.directory?(item)
 			upload_folder(item)
