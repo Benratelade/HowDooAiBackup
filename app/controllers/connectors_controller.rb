@@ -19,6 +19,12 @@ class ConnectorsController < ApplicationController
 		@connectors = current_user.connectors.all
 	end
 
+	def list_items
+		connector = Connector.find_by_id(params[:id])
+		@list = connector.list_items
+		render json: @list
+	end
+
 	private
 	def connector_params
 		params.require(:connector).permit(:username, :password)

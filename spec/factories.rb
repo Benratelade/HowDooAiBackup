@@ -1,4 +1,7 @@
-FactoryGirl.define do  
+FactoryGirl.define do  factory :backup do
+    frequency "MyString"
+  end
+  
 	factory :ftp_connector do
 		username "thelocalpress"
 		password "ghourdy123$"

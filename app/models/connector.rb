@@ -9,6 +9,9 @@ class Connector < ActiveRecord::Base
 	def upload_item(item)
 	end
 
+	def list_items
+	end
+
 	private
 	def move_to_download_location
 		rails_path = Rails.root.to_s

@@ -29,6 +29,9 @@ gem 'bcrypt', '~> 3.1.7'
 # Validating emails simply
 gem 'validates_email_format_of'
 
+# Asynchrnous jobs
+gem 'delayed_job_active_record'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
