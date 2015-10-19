@@ -1,0 +1,21 @@
+<h2>Backups</h2>
+<h3>Existing Backup</h3>
+	<table>
+		<thead>
+			<th>Backup from</th>
+			<th>Backup to</th>
+			<th>Item to backup</th>
+			<th>Frequency</th>
+		</thead>
+		<% @backups.each do |backup| %>
+			<tr>
+				<td><%= backup.source_connector.name %></td>
+				<td><%= backup.destination_connector.name %></td>
+				<td><%= backup.item %></td>
+				<td><%= backup.frequency %></td>
+			</tr>
+		<% end %>
+	</table>
+<h3>Register new Backup</h3>
+	<%= link_to "New Backup", :backups_new, method: :get %>
+<h3>Backups history</h3>

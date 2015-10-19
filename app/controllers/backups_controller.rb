@@ -1,6 +1,6 @@
 class BackupsController < ApplicationController
 	def index
-		@backups = current_user.backups
+		@backups = current_user.backups.includes(:source_connector, :destination_connector)
 	end
 
 	def new

@@ -2,13 +2,17 @@
 
 <table>
 	<thead>
-		<td>Username</td>
-		<td>Password</td>
+		<th>Name</th>
+		<th>Username</th>
+		<th>Password</th>
 	</thead>
 	<% @connectors.each do |connector| %>
 		<tr>
+			<td><%= connector.name %></td>
 			<td><%= connector.username %></td>
 			<td><%= connector.password %></td>
 		</tr>
 	<% end %>
 </table>
+	<h3>Register new Connectors</h3>
+	<%= link_to "Ftp connector", :ftp_connectors_new, method: :get %>

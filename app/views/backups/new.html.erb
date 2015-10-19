@@ -1,33 +1,18 @@
 <%= form_for @backup do |f| %>
 	<div class="connector" id="source-connector">
 		<h4>Backup from: </h4>
-		<%= f.collection_select(:source_connector_id, @connectors, :id, :host, {prompt: "Please select"}) %>
+		<%= f.collection_select(:source_connector_id, @connectors, :id, :name, {prompt: "Please select"}) %>
 		<div id="connector-contents">
 			<table>
+				<thead>
+					<th>Available files and directories</th>
+				</thead>
 				<tbody id="selectable"></tbody></table>
 		</div>
 		<%= f.hidden_field :item, {class: 'selectable-item'} %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
-	</div>
-	<div class="connector" id="destination-connector">
+	</div><div class="connector" id="destination-connector">
 		<h4>Backup to: </h4>
-		<%= f.collection_select(:destination_connector_id, @connectors, :id, :host, {prompt: "Please select"}) %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
-		<%= %>
+		<%= f.collection_select(:destination_connector_id, @connectors, :id, :name, {prompt: "Please select"}) %>
 	</div>
 	<%= f.submit "Schedule backup" %>
 	<%= f.submit "Backup now" %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151018023941) do
+ActiveRecord::Schema.define(version: 20151019103607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20151018023941) do
     t.string   "type"
     t.string   "host"
     t.integer  "port"
+    t.string   "name"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

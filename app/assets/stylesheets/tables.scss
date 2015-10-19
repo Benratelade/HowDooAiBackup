@@ -1,0 +1,17 @@
+table {
+	border: 1px #ccc solid; 
+	border-collapse: collapse; 
+	width: 100%; 
+	margin: 0 auto; 
+	margin: 20px 0; 
+}
+th {
+	background-color: #375497;
+	color: white; 
+}
+tr {
+	text-align: center; 
+}
+tbody tr:nth-child(2n+2){
+	background-color: #F4F4F4; 
+}

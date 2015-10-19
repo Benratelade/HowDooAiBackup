@@ -3,7 +3,11 @@
 	<nav>
 		<div class="navbar-buttons">
 			<% if current_user %>
-				<%= link_to "Log out", logout_path, method: :delete %>
+				<ul>
+					<li><%= link_to "Connectors", connectors_index_path, method: :get %></li>
+					<li><%= link_to "Backups", backups_index_path, method: :get %></li>
+					<li><%= link_to "Log out", logout_path, method: :delete %></li>
+				</ul>
 			<% else %>
 				<span class="button navbar-button" id="signin-button"><%= link_to "Log in", login_path %></span>
 				<span class="button navbar-button" id="signup-button"><%= link_to "Sign up", new_user_path %></span>

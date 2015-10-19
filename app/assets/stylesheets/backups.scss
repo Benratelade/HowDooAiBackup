@@ -1,3 +1,14 @@
 // Place all the styles related to the backups controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+div.connector {
+	display: inline-block; 
+	width: 44%;
+	margin-right: 6%;  
+}
+div.connector:last-of-type {
+	margin-right: 0;  
+	margin-left: 6%; 
+	text-align: right; 
+}
