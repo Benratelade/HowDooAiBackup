@@ -38,6 +38,9 @@ gem 'jquery-ui-rails'
 # Daemons
 gem 'daemons'
 
+# Task Scheduler
+gem 'rufus-scheduler'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
