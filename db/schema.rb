@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151019103607) do
+ActiveRecord::Schema.define(version: 20151102123009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "backup_logs", force: :cascade do |t|
+    t.integer  "backup_schedule_id"
+    t.string   "status"
+    t.string   "error_message"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
 
   create_table "backups", force: :cascade do |t|
     t.string   "frequency"
@@ -24,6 +32,8 @@ ActiveRecord::Schema.define(version: 20151019103607) do
     t.integer  "destination_connector_id"
     t.integer  "user_id"
     t.string   "item"
+    t.date     "next_backup_date"
+    t.date     "last_backup_date"
   end
 
   create_table "connectors", force: :cascade do |t|
@@ -53,6 +63,14 @@ ActiveRecord::Schema.define(version: 20151019103607) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "scheduled_backups", force: :cascade do |t|
+    t.integer  "connection_id"
+    t.string   "frequency"
+    t.integer  "backup_logs_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
