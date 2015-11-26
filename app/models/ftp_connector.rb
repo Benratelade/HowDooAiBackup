@@ -37,6 +37,7 @@ class FtpConnector < Connector
 		if @connection == nil || @connection.closed?
 			@connection = Net::FTP.new(self.host, self.username, self.password)
 			@connection.passive = true
+			puts "Connected to server."
 		end
 	end
 

@@ -24,6 +24,8 @@ class BackupsController < ApplicationController
 	def backup_now
 		@backup = Backup.new(backup_params)
 		@backup.backup
+		@backup.source_connector.connection.close
+		@backup.destination_connector.connection.close
 		redirect_to 'backups/index'
 	end
 
