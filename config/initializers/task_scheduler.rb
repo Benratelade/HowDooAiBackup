@@ -2,13 +2,13 @@ require 'rufus-scheduler'
 
 @queue_build_scheduler = Rufus::Scheduler.new
 
-@queue_build_scheduler.cron('*/1 * * * *') do 
+@queue_build_scheduler.cron('0 0 * * *') do 
 	build_backup_queue
 end
 
 @process_queue_scheduler = Rufus::Scheduler.new
 
-@process_queue_scheduler.cron('*/2 * * * *') do
+@process_queue_scheduler.cron('10 0 * * *') do
 	process_backup_queue
 end
 
