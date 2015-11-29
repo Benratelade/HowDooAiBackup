@@ -34,6 +34,7 @@ class FtpConnector < Connector
 
 	private
 	def connect_to_server
+		puts "initiating connection to server"
 		if @connection == nil || @connection.closed?
 			@connection = Net::FTP.new(self.host, self.username, self.password)
 			@connection.passive = true
@@ -42,6 +43,7 @@ class FtpConnector < Connector
 	end
 
 	def download_file(filename)
+		puts "Downloading file: #{filename}"
 		@connection.getbinaryfile(filename,filename)
 	end
 

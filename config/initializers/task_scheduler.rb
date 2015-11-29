@@ -2,13 +2,13 @@ require 'rufus-scheduler'
 
 @queue_build_scheduler = Rufus::Scheduler.new
 
-@queue_build_scheduler.cron('*/5 * * * *') do 
+@queue_build_scheduler.cron('*/1 * * * *') do 
 	build_backup_queue
 end
 
 @process_queue_scheduler = Rufus::Scheduler.new
 
-@process_queue_scheduler.cron('*/6 * * * *') do
+@process_queue_scheduler.cron('*/2 * * * *') do
 	process_backup_queue
 end
 
@@ -22,8 +22,13 @@ end
 
 def process_backup_queue
 	if @backups_queue
+		puts "About to process the following backups: #{@backups_queue}"
+		puts "before starting queue"
 		@backups_queue.each do |backup|
+			puts backup
+			puts "starting backup process from process_backup_queue"
 			backup.backup
+			@backups_queue.delete(backup)
 		end
 	end
 end

@@ -1,5 +1,5 @@
 class Connector < ActiveRecord::Base
-	belongs_to :customer
+	belongs_to :user
 
 	validates_presence_of :user_id
 
@@ -19,12 +19,15 @@ class Connector < ActiveRecord::Base
 	end
 
 	def create_download_folder
+		folder_name = ''
 		timestamp = Time.now.to_s
-		Dir.mkdir(timestamp)
-		return(timestamp)
+		folder_name += self.user.email + self.username
+		Dir.mkdir(folder_name)
+		return(folder_name)
 	end
 
 	def initiate_download
+		puts "initiating download"
 		move_to_download_location
 		Dir.chdir(create_download_folder)
 		@download_directory = Dir.getwd

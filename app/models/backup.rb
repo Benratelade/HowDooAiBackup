@@ -9,8 +9,8 @@ class Backup < ActiveRecord::Base
 		self.destination_connector.connection.close
 		self.source_connector.connection.close
 		self.last_backup_date = Date.today
-		# self.next_backup_date = Date.today + self.frequency
-		# self.save
+		self.next_backup_date = Date.today + self.frequency
+		self.save
 	end
 	# handle_asynchronously :backup
 end
