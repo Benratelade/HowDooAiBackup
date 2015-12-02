@@ -11,11 +11,18 @@ Rails.application.routes.draw do
   post 'connectors'           => 'connectors#create'
   get 'connectors/index'      => 'connectors#index'
   get 'connectors/list'       => 'connectors#list_items'
+  get 'connector/:id/edit'    => 'connectors#edit'
+  get 'connector/:id/update'  => 'connectors#update'
 
   # Ftp Connectors routes
-  get '/ftp_connectors/new'   => 'ftp_connectors#new'
-  post '/ftp_connectors/'     => 'ftp_connectors#create'
-  get '/ftp_connectors/index' => 'ftp_connectors#index'
+  resources :ftp_connectors
+  # get 'ftp_connectors/new'        => 'ftp_connectors#new'
+  # post 'ftp_connectors/'          => 'ftp_connectors#create'
+  # get 'ftp_connectors/index'      => 'ftp_connectors#index'
+  # get 'ftp_connector/:id/edit'    => 'ftp_connectors#edit'
+  # get 'ftp_connector/:id/update'  => 'ftp_connectors#update'
+  # get 'ftp_connector/:id', to: 'ftp_connector#show', as: :ftp_connector
+  # patch 'ftp_connector/:id', to: 'ftp_connector#update', as: :ftp_connector
 
   # Backups routes
   get '/backups/new'          =>  'backups#new'

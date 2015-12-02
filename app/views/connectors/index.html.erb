@@ -5,14 +5,16 @@
 		<th>Name</th>
 		<th>Username</th>
 		<th>Password</th>
+		<th></th>
 	</thead>
 	<% @connectors.each do |connector| %>
 		<tr>
 			<td><%= connector.name %></td>
 			<td><%= connector.username %></td>
 			<td><%= connector.password %></td>
+			<td><%= link_to "Edit Connector", controller: 'ftp_connectors', action: 'edit', id: connector.id %></td>
 		</tr>
 	<% end %>
 </table>
 	<h3>Register new Connectors</h3>
-	<%= link_to "Ftp connector", :ftp_connectors_new, method: :get %>
+	<%= link_to "Ftp connector", :new_ftp_connector, method: :get %>

@@ -15,6 +15,15 @@ class ConnectorsController < ApplicationController
 		end
 	end
 
+	# GET connector/1/edit
+	def edit
+		@connector = Connector.find_by_id(params[:id])
+	end
+
+	def update
+		@connector = Connector.find_by_id(params[:id])
+	end
+
 	def index
 		@connectors = current_user.connectors.all
 	end
