@@ -22,7 +22,6 @@ class BackupsController < ApplicationController
 	end
 
 	def backup_now
-		@backup.frequency = 7
 		@backup.backup
 		@backup.source_connector.connection.close
 		@backup.destination_connector.connection.close
