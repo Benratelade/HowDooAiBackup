@@ -4,7 +4,6 @@ class Backup < ActiveRecord::Base
 	belongs_to	:user
 
 	def backup
-		puts "Inside the backup method"
 		download_path = self.source_connector.download_item(self.item)
 		self.destination_connector.upload_item(download_path)
 		self.destination_connector.connection.close
