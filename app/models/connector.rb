@@ -21,7 +21,7 @@ class Connector < ActiveRecord::Base
 	def create_download_folder
 		folder_name = ''
 		timestamp = Time.now.to_s
-		folder_name += self.user.email + self.username
+		folder_name += self.user.email + "-"+ self.username + "-" + timestamp
 		Dir.mkdir(folder_name)
 		return(folder_name)
 	end

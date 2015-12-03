@@ -13,7 +13,7 @@ class BackupsController < ApplicationController
 		current_user.backups << @backup
 			if @backup.save
 				if params[:commit] == "Backup now"
-					@backup.backup
+					backup_now
 				end
 				redirect_to '/backups/index'
 			else
@@ -22,11 +22,10 @@ class BackupsController < ApplicationController
 	end
 
 	def backup_now
-		@backup = Backup.new(backup_params)
+		@backup.frequency = 7
 		@backup.backup
 		@backup.source_connector.connection.close
 		@backup.destination_connector.connection.close
-		redirect_to 'backups/index'
 	end
 
 	private
