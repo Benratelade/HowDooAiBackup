@@ -41,6 +41,7 @@ gem 'daemons'
 # Task Scheduler
 gem 'rufus-scheduler'
 
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -52,6 +53,8 @@ group :development, :test do
   gem 'byebug'
 
   gem 'rspec-rails', '~>3.0'
+
+  gem 'puma'
 end
 
 group :development do
