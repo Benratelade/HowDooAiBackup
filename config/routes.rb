@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   post 'login'                => 'sessions#create'
   delete '/logout'            => 'sessions#destroy'
 
+  # User Dashboard
+  get 'dashboard'             => 'pages#dashboard'
+
   # Create connectors routes
   get 'connectors/new'        => 'connectors#new'
   post 'connectors'           => 'connectors#create'
