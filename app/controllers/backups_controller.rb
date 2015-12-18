@@ -1,4 +1,7 @@
 class BackupsController < ApplicationController
+	
+	before_action :require_user, only: [:index, :new, :create]
+
 	def index
 		@backups = current_user.backups.includes(:source_connector, :destination_connector)
 	end
