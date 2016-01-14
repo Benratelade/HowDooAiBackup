@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151203081312) do
+ActiveRecord::Schema.define(version: 20160110163439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "backup_histories", force: :cascade do |t|
+    t.string   "status"
+    t.integer  "backup_id"
+    t.integer  "user_id"
+    t.string   "item_name"
+    t.string   "item_size"
+    t.date     "backup_start_time"
+    t.date     "backup_end_time"
+    t.integer  "source_connector_id"
+    t.integer  "destination_connector_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
 
   create_table "backup_logs", force: :cascade do |t|
     t.integer  "backup_schedule_id"

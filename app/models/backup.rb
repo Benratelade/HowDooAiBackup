@@ -2,6 +2,7 @@ class Backup < ActiveRecord::Base
 	belongs_to	:source_connector, class_name: "Connector"
 	belongs_to	:destination_connector, class_name: "Connector"
 	belongs_to	:user
+	has_many	:backup_histories
 
 	def backup
 		download_path = self.source_connector.download_item(self.item)
