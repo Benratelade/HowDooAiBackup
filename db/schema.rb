@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160110163439) do
+ActiveRecord::Schema.define(version: 20160117054532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 20160110163439) do
     t.integer  "user_id"
     t.string   "item_name"
     t.string   "item_size"
-    t.date     "backup_start_time"
-    t.date     "backup_end_time"
+    t.datetime "backup_start_time"
+    t.datetime "backup_end_time"
     t.integer  "source_connector_id"
     t.integer  "destination_connector_id"
     t.datetime "created_at",               null: false
