@@ -5,13 +5,36 @@ class Backup < ActiveRecord::Base
 	has_many	:backup_histories
 
 	def backup
-		download_path = self.source_connector.download_item(self.item)
-		self.destination_connector.upload_item(download_path)
-		self.destination_connector.connection.close
-		self.source_connector.connection.close
-		self.last_backup_date = Date.today
-		self.next_backup_date = Date.today + self.frequency
-		self.save
+		start_time = Time.now
+		begin 
+			download_path = self.source_connector.download_and_close(self.item)
+			self.destination_connector.upload_and_close(download_path)
+			end_time = Time.now
+			log_backup( "Backup successful", start_time, end_time )
+			self.last_backup_date = Date.today
+			self.next_backup_date = Date.today + self.frequency
+			self.save
+		rescue Net::FTPError => e 
+			error = "Backup failed: " + e.message
+			log_backup(error, start_time, Time.now)
+			self.next_backup_date = Date.today + 1
+
+			self.save
+		end
 	end
 	# handle_asynchronously :backup
+
+	def log_backup(status, start_time, end_time)
+		log_entry = BackupHistory.new ()
+		log_entry.user_id = self.user_id
+		log_entry.backup_id = self.id
+		log_entry.status =  status
+		log_entry.item_name = self.item
+		log_entry.item_size = ""
+		log_entry.backup_start_time = start_time
+		log_entry.backup_end_time = end_time
+		log_entry.source_connector_id = self.source_connector_id
+		log_entry.destination_connector_id = self.destination_connector_id
+		log_entry.save
+	end
 end

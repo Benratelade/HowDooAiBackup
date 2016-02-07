@@ -10,7 +10,7 @@ class FtpConnectorsController < ApplicationController
 		end
 		current_user.connectors << ftp_connector
 		if ftp_connector.save
-			redirect_to "/ftp_connectors/index"
+			redirect_to action: "index"
 		else
 			redirect_to "/ftp_connectors/new"
 		end
