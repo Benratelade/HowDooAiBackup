@@ -19,3 +19,18 @@
 <h3>Register new Backup</h3>
 	<%= link_to "New Backup", :backups_new, method: :get %>
 <h3>Backups history</h3>
+<table>
+		<thead>
+			<th>Item backed up</th>
+			<th>Backup status</th>
+			<th>Back up time</th>
+		</thead>
+		<% @backups.each do |backup| %>
+			<% backup.backup_histories.each do |log| %>
+			<tr>
+				<td><%= log.item_name %></td>
+				<td><%= log.status %></td>
+				<td><%= log.backup_start_time %></td>
+			</tr>
+			<% end %>
+		<% end %>

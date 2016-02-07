@@ -1,4 +1,7 @@
 class BackupsController < ApplicationController
+	
+	before_action :require_user, only: [:index, :new, :create]
+
 	def index
 		@backups = current_user.backups.includes(:source_connector, :destination_connector)
 	end
@@ -9,6 +12,7 @@ class BackupsController < ApplicationController
 	end
 
 	def create
+		puts backup_params
 		@backup = Backup.new(backup_params)
 		current_user.backups << @backup
 			if @backup.save
@@ -23,8 +27,6 @@ class BackupsController < ApplicationController
 
 	def backup_now
 		@backup.backup
-		@backup.source_connector.connection.close
-		@backup.destination_connector.connection.close
 	end
 
 	private

@@ -1,4 +1,7 @@
-FactoryGirl.define do  factory :backup do
+FactoryGirl.define do  factory :backup_history do
+    
+  end
+  factory :backup do
     frequency "MyString"
   end
   

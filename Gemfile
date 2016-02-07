@@ -43,7 +43,6 @@ gem 'rufus-scheduler'
 
 gem 'puma'
 
-
 # Use Unicorn as the app server
 # gem 'unicorn'
 

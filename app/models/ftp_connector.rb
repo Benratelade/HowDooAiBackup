@@ -2,6 +2,31 @@ class FtpConnector < Connector
 	require 'net/ftp'
 	attr_accessor :connection
 
+	def download_and_close(item)
+		download_item(item)
+		@connection.close if @connection
+	end
+
+	def upload_and_close (item)
+		upload_item(item)
+		@connection.close if @connection
+	end
+
+	def list_items
+		connect_to_server
+		@connection.nlst
+	end
+
+	private
+	def connect_to_server
+		puts "initiating connection to server"
+		if @connection == nil || @connection.closed?
+			@connection = Net::FTP.new(self.host, self.username, self.password)
+			@connection.passive = true
+			puts "Connected to server."
+		end
+	end
+
 	def download_item(item, is_first_item = true)
 		initiate_download if is_first_item
 		connect_to_server
@@ -24,21 +49,6 @@ class FtpConnector < Connector
 			upload_folder(item)
 		else
 			upload_file(item)
-		end
-	end
-
-	def list_items
-		connect_to_server
-		@connection.nlst
-	end
-
-	private
-	def connect_to_server
-		puts "initiating connection to server"
-		if @connection == nil || @connection.closed?
-			@connection = Net::FTP.new(self.host, self.username, self.password)
-			@connection.passive = true
-			puts "Connected to server."
 		end
 	end
 
