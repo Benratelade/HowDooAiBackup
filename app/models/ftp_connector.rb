@@ -1,10 +1,12 @@
 class FtpConnector < Connector
 	require 'net/ftp'
+	validates :name, uniqueness: {scope: [:user_id, :username, :host]}
 	attr_accessor :connection
 
 	def download_and_close(item)
-		download_item(item)
+		path = download_item(item)
 		@connection.close if @connection
+		return path
 	end
 
 	def upload_and_close (item)

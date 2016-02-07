@@ -1,7 +1,9 @@
 class Connector < ActiveRecord::Base
 	belongs_to :user
+	has_many	:backups
 
 	validates_presence_of :user_id
+	validates :name, uniqueness: {scope: [:user_id]}
 
 	def download_item(item)
 	end
