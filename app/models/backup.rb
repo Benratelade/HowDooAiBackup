@@ -1,28 +1,11 @@
 class Backup < ActiveRecord::Base
-	belongs_to	:source_connector, class_name: "Connector"
-	belongs_to	:destination_connector, class_name: "Connector"
 	belongs_to	:user
+	belongs_to	:transfer
 	has_many	:backup_histories
 
-	def backup
-		start_time = Time.now
-		begin 
-			download_path = self.source_connector.download_and_close(self.item)
-			self.destination_connector.upload_and_close(download_path)
-			end_time = Time.now
-			log_backup( "Backup successful", start_time, end_time )
-			self.last_backup_date = Date.today
-			self.next_backup_date = Date.today + self.frequency
-			self.save
-		rescue Net::FTPError => e 
-			error = "Backup failed: " + e.message
-			log_backup(error, start_time, Time.now)
-			self.next_backup_date = Date.today + 1
+	before_create :set_next_backup_date
 
-			self.save
-		end
-	end
-	# handle_asynchronously :backup
+# Allows scheduling a transfer. 
 
 	def log_backup(status, start_time, end_time)
 		log_entry = BackupHistory.new ()
@@ -36,5 +19,9 @@ class Backup < ActiveRecord::Base
 		log_entry.source_connector_id = self.source_connector_id
 		log_entry.destination_connector_id = self.destination_connector_id
 		log_entry.save
+	end
+
+	def set_next_backup_date
+		self.next_backup_date = Date.today
 	end
 end

@@ -27,6 +27,10 @@ Rails.application.routes.draw do
   # get 'ftp_connector/:id', to: 'ftp_connector#show', as: :ftp_connector
   # patch 'ftp_connector/:id', to: 'ftp_connector#update', as: :ftp_connector
 
+  #Transfers routes
+  get '/transfers/new'        =>  'transfers#new'
+  post '/transfers/'          =>  'transfers#create'
+
   # Backups routes
   get '/backups/new'          =>  'backups#new'
   post '/backups/'            =>  'backups#create'

@@ -1,4 +1,7 @@
-FactoryGirl.define do  factory :backup_history do
+FactoryGirl.define do  factory :transfer do
+    
+  end
+  factory :backup_history do
     
   end
   factory :backup do

@@ -9,15 +9,15 @@
 		</thead>
 		<% @backups.each do |backup| %>
 			<tr>
-				<td><%= backup.source_connector.name %></td>
-				<td><%= backup.destination_connector.name %></td>
-				<td><%= backup.item %></td>
+				<td><%= backup.transfer.source_connector.name %></td>
+				<td><%= backup.transfer.destination_connector.name %></td>
+				<td><%= backup.transfer.item_name %></td>
 				<td><%= backup.frequency %></td>
 			</tr>
 		<% end %>
 	</table>
 <h3>Register new Backup</h3>
-	<%= link_to "New Backup", :backups_new, method: :get %>
+	<%= link_to "New Transfer", :transfers_new, method: :get %>
 <h3>Backups history</h3>
 <table>
 		<thead>

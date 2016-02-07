@@ -1,28 +1,35 @@
 header {
-	height: 75px; 
+	height: 95px; 
 	background-color: #278787;
 	width: 100%; 
 	margin: 0; 
 	text-align: center; 
-	font-weight: bolder;  
+	font-weight: bolder; 
+}
+	header .logo {
+		height: 70px;
+		float: left; 
+		margin: 10px 0 10px 50px; 	
 }
 
-header:before {
+nav {
+	position: relative; 
+	vertical-align: middle; 
+	margin-right: 50px; 
+	height: 100%; 
+	text-align: right; 
+}
+nav:before {
 	content: " "; 
 	display: inline-block; 
 	height: 100%; 
 	width: 1%; 
-	vertical-align: middle; 	
+	vertical-align: middle; 
 }
 
-nav {
+nav .navbar-buttons {
 	display: inline-block; 
 	vertical-align: middle; 
-	width: 90%; 
-}
-
-.navbar-buttons {
-	float: right; 
 }
 
 ul {
