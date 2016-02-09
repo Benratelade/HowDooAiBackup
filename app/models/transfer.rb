@@ -27,16 +27,16 @@ class Transfer < ActiveRecord::Base
 
 
 	def log_transfer(attributes={})
-		log_entry = BackupHistory.new ()
-		log_entry.user_id = self.user_id
-		log_entry.backup_id = self.id
-		log_entry.status =  attributes[:status]
-		log_entry.item_name = self.item_name
-		log_entry.item_size = ""
-		log_entry.backup_start_time = attributes[:start_time]
-		log_entry.backup_end_time = attributes[:end_time]
-		log_entry.source_connector_id = self.source_connector_id
-		log_entry.destination_connector_id = self.destination_connector_id
-		log_entry.save
+		log_entry = BackupHistory.create ({
+			user_id: self.user_id, 
+			backup_id: self.id, 
+			status: attributes[:status], 
+			item_name: self.item_name, 
+			item_size: "", 
+			backup_start_time: attributes[:start_time], 
+			backup_end_time: attributes[:end_time],
+			source_connector_id: self.source_connector_id,
+			destination_connector_id: self.destination_connector_id
+		})
 	end
 end

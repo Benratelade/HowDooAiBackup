@@ -14,10 +14,16 @@ end
 
 def build_backup_queue
 	puts "Building backups queue"
-	@backups = Backup.where(next_backup_date: Date.today)
+	backups = Backup.where(next_backup_date: Date.today, queued: false)
 	@backups_queue ||= []
-	@backups.each do |backup|
+	backups.each do |backup|
+		backup.queued == true
 		@backups_queue << backup
+	end
+	Backup.transaction do 
+		@backups_queue.each do |backup|
+			backup.save
+		end
 	end
 end
 
@@ -30,6 +36,8 @@ def process_backup_queue
 			puts "starting backup process from process_backup_queue"
 			backup.execute_transfer
 			@backups_queue.delete(backup)
+			backup.queued = false
+			backup.save
 		end
 	end
 end
