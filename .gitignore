@@ -19,4 +19,4 @@
 # config/database.yml
 
 # Ignore temp files
-temp/*
+temp/downloads/*
