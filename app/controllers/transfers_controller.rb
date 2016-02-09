@@ -23,6 +23,7 @@ class TransfersController < ApplicationController
 				backup = Backup.new
 				backup.transfer = @transfer
 				current_user.backups << backup
+				backup.next_backup_date = Date.today
 				backup.frequency = 7
 				if backup.save
 					redirect_to '/backups/index' 
