@@ -9,7 +9,8 @@ class Backup < ActiveRecord::Base
 	def execute_transfer
 		attributes = self.transfer.transfer
 		self.last_backup_date = Date.today
-		self.next_backup_date = Date.today
+		set_next_backup_date
+		self.save
 		log_transfer(attributes)
 	end
 
@@ -28,6 +29,6 @@ class Backup < ActiveRecord::Base
 	end
 
 	def set_next_backup_date
-		self.next_backup_date = Date.today
+		self.next_backup_date = Date.today + self.frequency
 	end
 end
