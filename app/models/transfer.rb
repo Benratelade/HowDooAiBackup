@@ -23,7 +23,7 @@ class Transfer < ActiveRecord::Base
 		end
 		return attributes
 	end
-	# handle_asynchronously :backup
+	handle_asynchronously :transfer
 
 
 	def log_transfer(attributes={})
