@@ -14,9 +14,29 @@ class FtpConnector < Connector
 		@connection.close if @connection
 	end
 
-	def list_items
+	def list_items (path=nil)
 		connect_to_server
-		@connection.nlst
+		list = []
+		@connection.ls(path) do |line|
+			line_items_hash = {}
+			line_items = line.split(" ")
+
+			# result from a ls is with the following format: 
+			# drwxrwxr-x    2 user group       4096 Sep  7 13:59 cgi-bin
+			line_items_hash[:item_name] = line_items[8..-1].join(" ")
+			line_items_hash[:item_size] = line_items[4]
+			if line_items[0].starts_with?("-")
+				line_items_hash[:item_type] = "file"
+			elsif line_items[0].starts_with?("l")
+				line_items_hash[:item_type] = "link"
+			else
+				line_items_hash[:item_type] = "directory"
+			end
+			list << line_items_hash
+		end
+		list.sort_by! { |item| [item[:item_type], item[:item_name]] }
+		@connection.close
+		return list
 	end
 
 	private

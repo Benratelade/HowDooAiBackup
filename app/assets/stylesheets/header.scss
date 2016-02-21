@@ -18,23 +18,14 @@ nav {
 	margin-right: 50px; 
 	height: 100%; 
 	text-align: right; 
-}
-nav:before {
-	content: " "; 
-	display: inline-block; 
-	height: 100%; 
-	width: 1%; 
-	vertical-align: middle; 
-}
 
-nav .navbar-buttons {
-	display: inline-block; 
-	vertical-align: middle; 
-}
-
-ul {
-	list-style: none; 
-}
+	&:before {
+		content: " "; 
+		display: inline-block; 
+		height: 100%; 
+		width: 1%; 
+		vertical-align: middle; 
+	}
 	ul li {
 		padding: 15px; 
 		border-radius: 4px; 
@@ -55,3 +46,15 @@ ul {
 			text-decoration: none; 
 		}
 	}
+
+}
+
+nav .navbar-buttons {
+	display: inline-block; 
+	vertical-align: middle; 
+}
+
+ul {
+	list-style: none; 
+}
+	

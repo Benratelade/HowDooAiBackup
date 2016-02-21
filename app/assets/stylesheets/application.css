@@ -11,6 +11,7 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require normalize
  *= require_self
  *= require jquery-ui
  */
@@ -44,4 +45,23 @@ body {
 
   #content {
   	padding: 50px;
+  }
+
+  #error_explanation {
+    width: 100%;
+  }
+
+  [data-item-type]:before {
+    font-family: FontAwesome;
+    font-size: 1.3em;
+    margin-right: 5px; 
+  }
+  [data-item-type="directory"]:before {
+    content: "\f07b";
+  }
+  [data-item-type="file"]:before {
+    content: "\f016";
+  }
+  [data-item-type="link"]:before {
+    content: "\f0c1";
   }

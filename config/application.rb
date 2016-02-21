@@ -24,5 +24,13 @@ module BackupApp
     config.active_record.raise_in_transactional_callbacks = true
 
     config.active_job.queue_adapter = :delayed_job
+
+    # add config/initializers/preload_sti_models.rb:
+
+    if Rails.env.development?
+        %w[transfer backup].each do |c|
+        require_dependency File.join("app","models","#{c}.rb")
+    end
+end
   end
 end

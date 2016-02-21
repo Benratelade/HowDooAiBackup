@@ -8,32 +8,39 @@ class TransfersController < ApplicationController
 
 	def new
 		@transfer = Transfer.new
-		@connectors = current_user.connectors.all
+		@connectors = current_user.connectors
 	end
 
 	def create
-		puts transfers_params
-		@transfer = Transfer.new(transfers_params)
-		current_user.transfers << @transfer
-		if @transfer.save
-			if params[:commit] == "Transfer now"
-				transfer_now
-				redirect_to '/backups/index'
-			elsif params[:commit] == "Schedule backup"
-				backup = Backup.new
-				backup.transfer = @transfer
-				current_user.backups << backup
-				backup.next_backup_date = Date.today
-				backup.frequency = 7
-				if backup.save
-					redirect_to '/backups/index' 
-				else
-					redirect_to '/transfers/new'
-				end				
-			else 
-				redirect_to '/transfers/new'
-			end
+		@transfer = current_user.transfers.where(
+			source_connector_id: transfers_params[:source_connector_id], 
+			destination_connector_id: transfers_params[:destination_connector_id], 
+			item_name: transfers_params[:item_name]
+			).first
+		if @transfer == nil
+			@transfer = Transfer.new(transfers_params)
+			current_user.transfers << @transfer
+			can_proceed = @transfer.save
+		else
+			can_proceed = true
 		end
+		if can_proceed
+			if @transfer.is_a? Backup
+				@transfer.next_backup_date = Date.today
+				if @transfer.save
+					redirect_to '/backups/index' and return
+				else 
+					@connectors = current_user.connectors
+					render :new
+				end		 
+			elsif @transfer.is_a? Transfer
+				transfer_now
+				redirect_to '/backups/index' and return
+			end		
+		else
+			@connectors = current_user.connectors
+			render :new
+		end	
 	end
 
 	def transfer_now
@@ -42,6 +49,6 @@ class TransfersController < ApplicationController
 
 	private
 	def transfers_params
-		params.require(:transfer).permit(:source_connector_id, :destination_connector_id, :frequency, :item_name)
+		params.require(:transfer).permit(:source_connector_id, :destination_connector_id, :frequency, :item_name, :type)
 	end
 end

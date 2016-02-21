@@ -3,6 +3,13 @@ class Transfer < ActiveRecord::Base
 	belongs_to	:destination_connector, class_name: "Connector"
 	belongs_to 	:user
 
+	has_many	:transfer_logs
+
+	scope :backups, -> { where(type: 'Backup') } 
+	validates	:source_connector, uniqueness: {scope: [:destination_connector, :user, :item_name]}
+	validates	:source_connector, :destination_connector, :type, presence: true
+	validates 	:item_name, presence: { message: "cannot be empty." }
+
 	def transfer
 		attributes = {}
 		attributes[:start_time] =  Time.now
@@ -12,22 +19,22 @@ class Transfer < ActiveRecord::Base
 			attributes[:end_time] = Time.now
 			attributes[:status] = "Transfer successful"
 			log_transfer(attributes)
-			# self.last_backup_date = Date.today
-			# self.next_backup_date = Date.today + self.frequency
 			self.save
 		rescue Net::FTPError => e 
 			attributes[:status] =  "Transfer failed: " + e.message
 			log_transfer(attributes)
-
 			self.save
 		end
 		return attributes
 	end
 	handle_asynchronously :transfer
 
+	def self.select_options
+  		descendants.map{ |c| c.to_s }.sort << self.name
+	end
 
 	def log_transfer(attributes={})
-		log_entry = BackupHistory.create ({
+		log_entry = TransferLog.create ({
 			user_id: self.user_id, 
 			backup_id: self.id, 
 			status: attributes[:status], 

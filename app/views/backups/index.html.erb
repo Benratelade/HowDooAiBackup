@@ -9,9 +9,9 @@
 		</thead>
 		<% @backups.each do |backup| %>
 			<tr>
-				<td><%= backup.transfer.source_connector.name %></td>
-				<td><%= backup.transfer.destination_connector.name %></td>
-				<td><%= backup.transfer.item_name %></td>
+				<td><%= backup.source_connector.name %></td>
+				<td><%= backup.destination_connector.name %></td>
+				<td><%= backup.item_name %></td>
 				<td><%= backup.frequency %></td>
 			</tr>
 		<% end %>
@@ -26,7 +26,7 @@
 			<th>Back up time</th>
 		</thead>
 		<% @backups.each do |backup| %>
-			<% backup.backup_histories.each do |log| %>
+			<% backup.transfer_logs.each do |log| %>
 			<tr>
 				<td><%= log.item_name %></td>
 				<td><%= log.status %></td>

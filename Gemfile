@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby "2.2.3"
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -42,6 +43,9 @@ gem 'daemons'
 gem 'rufus-scheduler'
 
 gem 'puma'
+
+# A little of fancy icons
+gem 'font-awesome-sass'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

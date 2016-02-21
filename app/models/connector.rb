@@ -14,6 +14,11 @@ class Connector < ActiveRecord::Base
 	def list_items
 	end
 
+	def self.select_options
+	  descendants.map{ |c| c.to_s }.sort
+	end
+
+
 	private
 	def move_to_download_location
 		rails_path = Rails.root.to_s
