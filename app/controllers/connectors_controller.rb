@@ -30,7 +30,8 @@ class ConnectorsController < ApplicationController
 
 	def list_items
 		connector = Connector.find_by_id(params[:id])
-		@list = connector.list_items
+		path = params[:path].split(" ").join("\\ ")
+		@list = connector.list_items(path)
 		render json: @list
 	end
 

@@ -32,6 +32,8 @@ class FtpConnector < Connector
 			else
 				line_items_hash[:item_type] = "directory"
 			end
+			line_items_hash[:path_to_item] = path + line_items_hash[:item_name]
+			line_items_hash[:path_to_item] += "/" if line_items_hash[:item_type] == "directory"
 			list << line_items_hash
 		end
 		list.sort_by! { |item| [item[:item_type], item[:item_name]] }

@@ -3,48 +3,54 @@ function displayConnectorContents(data) {
 		type: 'get', 
 		url: 'http://' + location.host + '/connectors/list', 
 		data: {
-			id: data.connectorId
+			id: data.connectorId, 
+			path: data.path
 		}, 
 		success: function(result){
 			responseHtml = '<ul>'; 
 			$.each(result, function(index, item) {
-				responseHtml += '<li data-item-type="' + item['item_type'] + '" data="' + item['item_name'] + '"><input type="radio" name="gender" value="' + item['item_name'] + '">' + item['item_name'] + '</li>' ; 
-			})
+				responseHtml += '<li data-item-type="' + item['item_type'] + '" data="' + item['item_name'] + '" data-path-to-item="' + item['path_to_item'] + '"><input type="radio" name="gender" value="' + item['item_name'] + '">' + item['item_name'] + '</li>' ; 
+			});
 			responseHtml += '</ul>'
-			if (data.parentElement.attr('class') == "connector") {
-				$("#connector-contents ul").html(responseHtml);
+			var objectifiedHtmlString = $(responseHtml); 
+			if (data.elementToUpdate.attr('class') == "connector") {
+				$("#connector-contents ul").append(objectifiedHtmlString);
 			} else {
-				data.parentElement.html(responseHtml);
+				console.log("this is inside the else"); 
+				console.log(data.elementToUpdate); 
+				data.elementToUpdate.append(objectifiedHtmlString);
 			}
-			makeFoldersClickable(); 
+			console.log("pong");
+			console.log(objectifiedHtmlString);
+			makeFoldersClickable(objectifiedHtmlString);
 		}
 	})
 }
 
-
-function makeFoldersClickable() {
-	$('li[data-item-type="directory"]').dblclick(function(){
-		$(this).css("background-color", "red"); 
-		connector = $(this).closest(".connector"); 
-		connectorId = connector.find("select").first().val(); 
+function makeFoldersClickable(groupOfElements) {
+	groupOfElements.find('li[data-item-type="directory"]').dblclick(function(){
+		event.stopPropagation();
+		var connector = $(this).closest(".connector"); 
+		var connectorId = connector.find("select").first().val(); 
 		var data = { connector: connector, 
 					 connectorId: connectorId, 
-					 parentElement: $(this).parent()
-				}; 
+					 elementToUpdate: $(this), 
+					 path: $(this).attr("data-path-to-item")
+				};
 		displayConnectorContents(data);
 	});
 }
 
 $(document).ready(function(){
 		$("#source-connector select").change(function() {
-			connectorId = $(this).val(); 
-			connector = $(this).closest(".connector").attr('id'); 
+			var connectorId = $(this).val(); 
+			var connector = $(this).closest(".connector").attr('id'); 
 			var data = { connector: connector, 
 						 connectorId: connectorId, 
-						 parentElement: $(this).parent()
+						 elementToUpdate: $(this).parent(), 
+						 path: "/"
 					}; 
 			displayConnectorContents(data);
 		}); 
 		
-		makeFoldersClickable(); 
 })
