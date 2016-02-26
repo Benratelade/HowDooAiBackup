@@ -17,7 +17,10 @@ class FtpConnector < Connector
 	def list_items (path=nil)
 		connect_to_server
 		list = []
-		@connection.ls(path) do |line|
+		# Do a bit of formatting to be able and use whitespaces in the path
+		path.include?(" ") ? safe_path = path.gsub(" ", "\\ ") : safe_path = path
+		puts safe_path
+		@connection.ls(safe_path) do |line|
 			line_items_hash = {}
 			line_items = line.split(" ")
 
@@ -32,7 +35,7 @@ class FtpConnector < Connector
 			else
 				line_items_hash[:item_type] = "directory"
 			end
-			line_items_hash[:path_to_item] = path.delete("\\") + line_items_hash[:item_name]
+			line_items_hash[:path_to_item] = path + line_items_hash[:item_name]
 			line_items_hash[:path_to_item] += "/" if line_items_hash[:item_type] == "directory"
 			list << line_items_hash
 		end

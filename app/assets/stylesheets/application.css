@@ -51,17 +51,10 @@ body {
     width: 100%;
   }
 
-  [data-item-type]:before {
-    font-family: FontAwesome;
-    font-size: 1.3em;
-    margin-right: 5px; 
+  .selected {
+    background-color: #375497;
+    color: white;
   }
-  [data-item-type="directory"]:before {
-    content: "\f07b";
-  }
-  [data-item-type="file"]:before {
-    content: "\f016";
-  }
-  [data-item-type="link"]:before {
-    content: "\f0c1";
-  }
+    .selected a {
+      color: white;
+    }

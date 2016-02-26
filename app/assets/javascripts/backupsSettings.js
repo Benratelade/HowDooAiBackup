@@ -1,4 +1,20 @@
-function displayConnectorContents(data) {
+$(document).ready(function(){
+	$("#source-connector select").change(function() {
+		var connectorId = $(this).val(); 
+		var connector = $(this).closest(".connector").attr('id'); 
+		var data = { connector: connector, 
+					 connectorId: connectorId, 
+					 elementToUpdate: $(this).parent(), 
+					 path: "/"
+				}; 
+		displayConnectorContents(data, displayRoot);
+	}); 
+
+	rootfolder = $('[role="root-folder"]'); 
+		
+})
+
+function displayConnectorContents(data, passedFunction) {
 	$.ajax({
 		type: 'get', 
 		url: 'http://' + location.host + '/connectors/list', 
@@ -6,23 +22,8 @@ function displayConnectorContents(data) {
 			id: data.connectorId, 
 			path: data.path
 		}, 
-		success: function(result){
-			responseHtml = '<ul>'; 
-			$.each(result, function(index, item) {
-				responseHtml += '<li data-item-type="' + item['item_type'] + '" data="' + item['item_name'] + '" data-path-to-item="' + item['path_to_item'] + '"><input type="radio" name="gender" value="' + item['item_name'] + '">' + item['item_name'] + '</li>' ; 
-			});
-			responseHtml += '</ul>'
-			var objectifiedHtmlString = $(responseHtml); 
-			if (data.elementToUpdate.attr('class') == "connector") {
-				$("#connector-contents ul").append(objectifiedHtmlString);
-			} else {
-				console.log("this is inside the else"); 
-				console.log(data.elementToUpdate); 
-				data.elementToUpdate.append(objectifiedHtmlString);
-			}
-			console.log("pong");
-			console.log(objectifiedHtmlString);
-			makeFoldersClickable(objectifiedHtmlString);
+		success: function(result) {
+			passedFunction(data, result)
 		}
 	})
 }
@@ -35,22 +36,46 @@ function makeFoldersClickable(groupOfElements) {
 		var data = { connector: connector, 
 					 connectorId: connectorId, 
 					 elementToUpdate: $(this), 
-					 path: $(this).attr("data-path-to-item")
+					 path: $(this).children().first().attr("data-path-to-item")
 				};
-		displayConnectorContents(data);
+		displayConnectorContents(data, displayFolderContents);
 	});
 }
 
-$(document).ready(function(){
-		$("#source-connector select").change(function() {
-			var connectorId = $(this).val(); 
-			var connector = $(this).closest(".connector").attr('id'); 
-			var data = { connector: connector, 
-						 connectorId: connectorId, 
-						 elementToUpdate: $(this).parent(), 
-						 path: "/"
-					}; 
-			displayConnectorContents(data);
-		}); 
-		
-})
+function displayRoot(data, result) {
+	var listHtmlObject = buildListHtml(data, result); 
+	$('[role="root-folder"]').children().first().html(listHtmlObject);
+	data.elementToUpdate.addClass("expanded"); 
+	data.elementToUpdate.removeClass("collapsed"); 
+	makeFoldersClickable(listHtmlObject);
+}
+
+function displayFolderContents(data, result) {
+	var listHtmlObject = buildListHtml(data, result); 
+	data.elementToUpdate.append(listHtmlObject);
+	data.elementToUpdate.addClass("expanded"); 
+	data.elementToUpdate.removeClass("collapsed"); 
+	makeFoldersClickable(listHtmlObject);
+}
+
+function buildListHtml(data, result) {
+	var responseContainer = $('<ul></ul>'); 
+	$.each(result, function(index, item) {
+		if (item['item_name'] != '.' && item['item_name'] != '..') { 
+			listElement = $("<li></li>", {
+				'class': 'collapsed', 
+				"data-item-type": item['item_type'], 
+			}).appendTo(responseContainer); 
+			clickableAnchor = $("<a></a>", {
+				href: '#', 
+				'class': 'selectable', 
+				name: 'item-name',
+				data: item['item_name'], 
+				'data-path-to-item': item['path_to_item'], 
+				value: item['item_name'],
+				text: item['item_name']
+			}).appendTo(listElement); 
+		}
+	});
+	return responseContainer; 
+}

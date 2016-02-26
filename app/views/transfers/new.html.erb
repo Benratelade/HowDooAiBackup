@@ -16,8 +16,8 @@
 			<%= f.collection_select(:source_connector_id, @connectors, :id, :name, {prompt: "Please select"}) %>
 			<div id="connector-contents">
 				<h2>Available files and directories</h2>
-				<ul id="">
-					<li data-item-type="directory" data="/">Root (/)</li>
+				<ul id="source-connector-list">
+					<li class="collapsed" id="" data-item-type="directory" role="root-folder" data="/">Root (/)<span id="root-contents"></span></li>
 				</ul>
 			</div>
 			<%= f.hidden_field :item_name, {class: 'selectable-item'} %>
