@@ -34,3 +34,20 @@
 			</tr>
 			<% end %>
 		<% end %>
+
+<h3>Transfers history</h3>
+<table>
+	<thead>
+		<th>Item transferred</th>
+		<th>Transfer status</th>
+		<th>Time of transfer</th>
+	</thead>
+	<% @transfers.each do |transfer| %>
+		<% transfer.transfer_logs.each do |log| %>
+		<tr>
+			<td><%= log.item_name %></td>
+			<td><%= log.status %></td>
+			<td><%= log.backup_start_time %></td>
+		</tr>
+		<% end %>
+	<% end %>

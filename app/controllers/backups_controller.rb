@@ -4,6 +4,7 @@ class BackupsController < ApplicationController
 
 	def index
 		@backups = current_user.backups
+		@transfers = current_user.transfers.where.not(type: "Backup")
 	end
 
 	def new

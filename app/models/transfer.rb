@@ -43,7 +43,9 @@ class Transfer < ActiveRecord::Base
 			backup_start_time: attributes[:start_time], 
 			backup_end_time: attributes[:end_time],
 			source_connector_id: self.source_connector_id,
-			destination_connector_id: self.destination_connector_id
+			destination_connector_id: self.destination_connector_id, 
+			transfer_type: self.type
 		})
+		self.transfer_logs << log_entry
 	end
 end
