@@ -17,7 +17,7 @@
 			<div id="connector-contents">
 				<h2>Available files and directories</h2>
 				<ul id="source-connector-list">
-					<li class="collapsed" id="" data-item-type="directory" role="root-folder" data="/">Root (/)<span id="root-contents"></span></li>
+					<li class="collapsed" id="" role="root-folder"><a href="#" data-item-type="directory"  data="/">Root (/)</a><span id="root-contents"></span></li>
 				</ul>
 			</div>
 			<%= f.hidden_field :item_name, {class: 'selectable-item'} %>
@@ -29,8 +29,8 @@
 	<div>
 		<%= f.label "How often should this be backed up?" %>
 		<%= f.select :frequency do  %>
-			<% Backup::BACKUP_SCHEDULES.each do |option|  %>
-		 		<%= content_tag(:option, option[:frequency], value: option[:frequency]) %>
+			<% Backup::BACKUP_SCHEDULES.each do |frequency, interval|  %>
+		 		<%= content_tag(:option, frequency, value: frequency) %>
 		 		<% end %>
 	 		<% end %>
 	</div>

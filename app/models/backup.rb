@@ -3,11 +3,11 @@ class Backup < Transfer
 
 	# TODO: Add validation: self.frequency must be in BACKUP_SCHEDULES
 
-	BACKUP_SCHEDULES = [
-		{frequency: 'daily', duration: 1.day},
-		{frequency: 'weekly', duration: 1.week},
-		{frequency: 'monthly', duration: 1.month}
-	]
+	BACKUP_SCHEDULES = {
+		'daily' => 1.day,
+		'weekly' => 1.week,
+		'monthly' => 1.month
+	}
 
 	attr_accessor :BACKUP_SCHEDULES
 	

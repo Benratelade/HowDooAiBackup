@@ -29,14 +29,14 @@ function displayConnectorContents(data, passedFunction) {
 }
 
 function makeFoldersClickable(groupOfElements) {
-	groupOfElements.find('li[data-item-type="directory"]').dblclick(function(){
+	groupOfElements.find('[data-item-type="directory"]').dblclick(function(){
 		event.stopPropagation();
 		var connector = $(this).closest(".connector"); 
 		var connectorId = connector.find("select").first().val(); 
 		var data = { connector: connector, 
 					 connectorId: connectorId, 
-					 elementToUpdate: $(this), 
-					 path: $(this).children().first().attr("data-path-to-item")
+					 elementToUpdate: $(this).parents('li').first(), 
+					 path: $(this).attr("data-path-to-item")
 				};
 		displayConnectorContents(data, displayFolderContents);
 	});
@@ -44,7 +44,7 @@ function makeFoldersClickable(groupOfElements) {
 
 function displayRoot(data, result) {
 	var listHtmlObject = buildListHtml(data, result); 
-	$('[role="root-folder"]').children().first().html(listHtmlObject);
+	$('[role="root-folder"]').children('span#root-contents').html(listHtmlObject);
 	data.elementToUpdate.addClass("expanded"); 
 	data.elementToUpdate.removeClass("collapsed"); 
 	makeFoldersClickable(listHtmlObject);
@@ -63,8 +63,7 @@ function buildListHtml(data, result) {
 	$.each(result, function(index, item) {
 		if (item['item_name'] != '.' && item['item_name'] != '..') { 
 			listElement = $("<li></li>", {
-				'class': 'collapsed', 
-				"data-item-type": item['item_type'], 
+				'class': 'collapsed'
 			}).appendTo(responseContainer); 
 			clickableAnchor = $("<a></a>", {
 				href: '#', 
@@ -73,7 +72,8 @@ function buildListHtml(data, result) {
 				data: item['item_name'], 
 				'data-path-to-item': item['path_to_item'], 
 				value: item['item_name'],
-				text: item['item_name']
+				text: item['item_name'], 
+				"data-item-type": item['item_type']
 			}).appendTo(listElement); 
 		}
 	});

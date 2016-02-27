@@ -17,9 +17,9 @@
 
 $(function() {
 	$( "#content" ).on('click', '.selectable', function() {
-			$("input[type=hidden][class^='selectable-']").val($(this).attr('data'));
+			$("input[type=hidden][class^='selectable-']").val($(this).attr('data-path-to-item'));
 			$('#source-connector-list').find('.selected').toggleClass('selected'); 
-			$(this).parent().toggleClass('selected'); 
+			$(this).toggleClass('selected'); 
 		}
 	)}
 )

@@ -4,42 +4,67 @@
 			display: block; 
 			font-size: 19px; 
 			line-height: 110%; 
-			input[type="radio"] {
-				-webkit-appearance: none; 
-			}
 			a {
 				color: black; 
 				text-decoration: none; 
+				display: block; 
+				padding-left: 10px; 
+				&:hover {
+					background-color: rgba(55, 84, 151, 0.25); 
+					color: white; 
+				}
 			}
-			.selected a {
+			a.selected {
 				color: white; 
 			}
 		}
 	}
 }
 
-[data-item-type]:before {
-    font-family: FontAwesome;
-    margin-right: 5px; 
-    color: #071E52;
-  }
-  .collapsed[data-item-type="directory"]:before {
-    content: "\f07b";
-  }
-  .expanded[data-item-type="directory"]:before {
-  	content: "\f115";
-  }
-  [data-item-type="file"].collapsed:before {
-    content: "\f016";
-  }
-  .collapsed[data-item-type="link"] {
-  	&:before {
-    	content: "\f0c1";
+[data-item-type] {
+	&:before {
+	    font-family: FontAwesome;
+	    margin-right: 5px; 
+	    color: #071E52;
+	    float: left; 
     }
-}
+    &.selected {
+    	&:before {
+    		color: white; 
+    	}
+    }
+  }
 
-.expanded[data-item-type="link"] {
-    &:before {
-    	content: "\f115";
-    }
+  .collapsed {
+  	[data-item-type="directory"] {
+    	&:before {
+    		content: "\f115";
+    	}
+	}
+	[data-item-type="file"] {
+		&:before {
+			content: "\f016";
+			.selected {
+				color: white; 
+			}
+		}
+	}
+	[data-item-type="link"] {
+		&:before {
+			content: "\f0c1";	
+		}
+	}
   }
+
+.expanded {
+	[data-item-type="directory"] {
+		&:before {
+			content: "\f07b";
+		}
+	}
+	[data-item-type="link"] {
+		&:before {
+			content: "\f115";	
+		}
+	}
+}
