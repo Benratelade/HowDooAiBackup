@@ -23,6 +23,9 @@ module BackupApp
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
+    # Making sure the lib directory gets loaded
+    config.autoload_paths << Rails.root.join('lib')
+
     config.active_job.queue_adapter = :delayed_job
 
     # add config/initializers/preload_sti_models.rb:

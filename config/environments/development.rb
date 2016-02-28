@@ -38,4 +38,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  AMAZON_ACCESS_KEY_ID = 'AKIAIF5UIHM6FASGNGHQ'
+
+  AMAZON_SECRET_ACCESS_KEY = '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'
 end

@@ -47,6 +47,9 @@ gem 'puma'
 # A little of fancy icons
 gem 'font-awesome-sass'
 
+# Amazon Web Services Upload
+gem 'aws-sdk', '~> 2'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

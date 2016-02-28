@@ -22,7 +22,7 @@ class Connector < ActiveRecord::Base
 	private
 	def move_to_download_location
 		rails_path = Rails.root.to_s
-		Dir.chdir(rails_path + '/temp/downloads/') 
+		Dir.chdir(rails_path + '/tmp/') 
 	end
 
 	def create_download_folder
