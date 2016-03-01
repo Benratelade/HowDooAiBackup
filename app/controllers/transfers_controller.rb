@@ -15,7 +15,8 @@ class TransfersController < ApplicationController
 		@transfer = current_user.transfers.where(
 			source_connector_id: transfers_params[:source_connector_id], 
 			destination_connector_id: transfers_params[:destination_connector_id], 
-			item_name: transfers_params[:item_name]
+			item_name: transfers_params[:item_name], 
+			type: transfers_params[:type]
 			).first
 		if @transfer == nil
 			@transfer = Transfer.new(transfers_params)
@@ -24,6 +25,7 @@ class TransfersController < ApplicationController
 		else
 			can_proceed = true
 		end
+		puts @transfer.to_yaml
 		if can_proceed
 			if @transfer.is_a? Backup
 				@transfer.next_backup_date = Date.today
@@ -33,7 +35,8 @@ class TransfersController < ApplicationController
 					@connectors = current_user.connectors
 					render :new
 				end		 
-			elsif @transfer.is_a? Transfer
+			else
+				puts "transferring now"
 				transfer_now
 				redirect_to '/backups/index' and return
 			end		

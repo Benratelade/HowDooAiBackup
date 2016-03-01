@@ -6,7 +6,7 @@ class Transfer < ActiveRecord::Base
 	has_many	:transfer_logs
 
 	scope :backups, -> { where(type: 'Backup') } 
-	validates	:source_connector, uniqueness: {scope: [:destination_connector, :user, :item_name]}
+	validates	:source_connector, uniqueness: {scope: [:destination_connector, :user, :item_name, :type]}
 	validates	:source_connector, :destination_connector, :type, presence: true
 	validates 	:item_name, presence: { message: "cannot be empty." }
 
@@ -27,7 +27,7 @@ class Transfer < ActiveRecord::Base
 		end
 		return attributes
 	end
-	handle_asynchronously :transfer
+	# handle_asynchronously :transfer
 
 	def self.select_options
   		descendants.map{ |c| c.to_s }.sort << self.name
@@ -36,7 +36,7 @@ class Transfer < ActiveRecord::Base
 	def log_transfer(attributes={})
 		log_entry = TransferLog.create ({
 			user_id: self.user_id, 
-			backup_id: self.id, 
+			transfer_id: self.id, 
 			status: attributes[:status], 
 			item_name: self.item_name, 
 			item_size: "", 

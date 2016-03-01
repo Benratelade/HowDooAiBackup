@@ -1,6 +1,6 @@
 require 'aws-sdk'
 
-class Integrations::AmazonWebServices::Gateway << Integrations::StorageApi
+class Integrations::AmazonWebServices::Gateway < Integrations::StorageApi
 
 	def init
 		@s3 = Aws::S3::Resource.new(

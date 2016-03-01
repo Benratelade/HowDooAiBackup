@@ -58,7 +58,7 @@ class FtpConnector < Connector
 		initiate_download if is_first_item
 		connect_to_server
 		if is_remote_folder?(item)
-			download_folder(item)
+			download_folder(item, path_to_item)
 		else
 			download_file(item)
 		end
@@ -81,7 +81,9 @@ class FtpConnector < Connector
 
 	def download_file(filename)
 		puts "Downloading file: #{filename}"
-		@connection.getbinaryfile(filename,filename)
+		@connection.getbinaryfile(filename,nil) do |data|
+			Processors::BaseProcessor.put_obj(data, filename)
+		end
 	end
 
 	def download_folder(foldername)
