@@ -3,14 +3,16 @@ class FtpConnector < Connector
 	validates :name, uniqueness: {scope: [:user_id, :username, :host]}
 	attr_accessor :connection
 
-	def download_and_close(item)
-		path = download_item(item)
+	def download_and_close(path_to_item)
+		connect_to_server
+		path = download_item(path_to_item)
 		@connection.close if @connection
 		return path
 	end
 
-	def upload_and_close (item)
-		upload_item(item)
+	def upload_and_close (path_to_item)
+		connect_to_server
+		upload_item(path_to_item)
 		@connection.close if @connection
 	end
 
@@ -54,22 +56,32 @@ class FtpConnector < Connector
 		end
 	end
 
-	def download_item(item, is_first_item = true)
-		initiate_download if is_first_item
-		connect_to_server
-		if is_remote_folder?(item)
-			download_folder(item, path_to_item)
-		else
-			download_file(item)
+	def download_item(path_to_item, root_item = nil)
+		unless root_item
+			root_item = path_to_item.split("/").last
 		end
-		if Dir.getwd == @download_directory
-			Dir.chdir('..')
-			return @download_directory
+		if is_remote_folder?(path_to_item)
+			download_folder(path_to_item, root_item)
+		else
+			download_file(path_to_item, root_item)
 		end
 	end
 
-	def upload_item(item, is_first_item = true)
-		connect_to_server
+	def download_file(path_to_file, root_item)
+		@connection.getbinaryfile(path_to_file,nil) do |data|
+			# Processors::BaseProcessor.download_obj(data, root_item)
+			return data
+		end
+	end
+
+	def download_folder(path_to_folder, root_item)
+		items = @connection.nlst(path_to_folder)
+		items.each do |item|
+			download_item(path_to_folder + "/" + item, root_item + "/" + item) unless item == '.' || item == '..'
+		end
+	end
+
+	def upload_item(path_to_item, is_first_item = true)
 		item = File.basename(item)
 
 		if File.directory?(item)
@@ -79,34 +91,15 @@ class FtpConnector < Connector
 		end
 	end
 
-	def download_file(filename)
-		puts "Downloading file: #{filename}"
-		@connection.getbinaryfile(filename,nil) do |data|
-			Processors::BaseProcessor.put_obj(data, filename)
-		end
-	end
-
-	def download_folder(foldername)
-		Dir.mkdir(foldername)
-		Dir.chdir(foldername)
-		puts 'Current local directory: ' + Dir.getwd
-		@connection.chdir(foldername)
-		items = @connection.nlst
-		items.each do |item|
-			download_item(item, false) unless item == '.' || item == '..'
-		end
-		@connection.chdir('..')
-		Dir.chdir('..')
-	end
-
-	def upload_file (filename)
+	def upload_file (filename, destination_path)
 		@connection.put(filename)
 	end
 
-	def upload_folder (foldername)
-		@connection.mkdir(foldername)
-		@connection.chdir(foldername)
-		Dir.chdir(foldername)
+
+	def upload_folder (path_to_folder)
+		@connection.mkdir(path_to_folder)
+		@connection.chdir(path_to_folder)
+		Dir.chdir(path_to_folder)
 		Dir.foreach('.') do |item|
 			unless File.basename(item) == '.' or File.basename(item) == '..'
 			 	puts File.basename(item)
@@ -117,9 +110,9 @@ class FtpConnector < Connector
 		@connection.chdir('..')
 	end
 
-	def is_remote_folder?(filename)
+	def is_remote_folder?(path_to_item)
 		begin
-			@connection.chdir(filename)
+			@connection.chdir(path_to_item)
 			@connection.chdir('..')
 			return true
 		rescue Net::FTPPermError
