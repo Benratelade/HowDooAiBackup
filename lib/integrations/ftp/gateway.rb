@@ -16,8 +16,8 @@ class Integrations::FTP::Gateway < Integrations::StorageApi
 	# for the path of nested folders. 
 	def get_item(path_to_item, upload_to_destination = nil, root_item = nil)
 		root_item = path_to_item.split.last unless root_item
-		if is_remote_folder?(path_to_item)
-			get_folder(path_to_item, upload_to_destination, root_item)
+		if is_remote_folder?(path_to_item.to_s)
+			get_folder(path_to_item.to_s, upload_to_destination, root_item)
 		else
 			get_file(path_to_item.to_s, root_item) do |data, root_item|
 				if upload_to_destination
