@@ -3,6 +3,12 @@ class Integrations::StorageApi
 	def init
 	end
 
-	def put_obj(data, name)
+	def put_obj(data, name, path)
+	end
+
+	def download_obj(data, name, path)
+	end
+
+	def list_objects(path=nil)
 	end
 end

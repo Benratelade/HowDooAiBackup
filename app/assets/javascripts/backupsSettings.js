@@ -61,7 +61,7 @@ function displayFolderContents(data, result) {
 function buildListHtml(data, result) {
 	var responseContainer = $('<ul></ul>'); 
 	$.each(result, function(index, item) {
-		if (item['item_name'] != '.' && item['item_name'] != '..') { 
+		if (item['source_path'] != '.' && item['source_path'] != '..') { 
 			listElement = $("<li></li>", {
 				'class': 'collapsed'
 			}).appendTo(responseContainer); 
@@ -69,10 +69,10 @@ function buildListHtml(data, result) {
 				href: '#', 
 				'class': 'selectable', 
 				name: 'item-name',
-				data: item['item_name'], 
+				data: item['source_path'], 
 				'data-path-to-item': item['path_to_item'], 
-				value: item['item_name'],
-				text: item['item_name'], 
+				value: item['source_path'],
+				text: item['source_path'], 
 				"data-item-type": item['item_type']
 			}).appendTo(listElement); 
 		}

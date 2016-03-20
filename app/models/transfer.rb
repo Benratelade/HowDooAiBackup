@@ -6,15 +6,24 @@ class Transfer < ActiveRecord::Base
 	has_many	:transfer_logs
 
 	scope :backups, -> { where(type: 'Backup') } 
-	validates	:source_connector, uniqueness: {scope: [:destination_connector, :user, :item_name, :type]}
+	validates	:source_connector, uniqueness: {scope: [:destination_connector, :user, :source_path, :type]}
 	validates	:source_connector, :destination_connector, :type, presence: true
-	validates 	:item_name, presence: { message: "cannot be empty." }
+	validates 	:source_path, presence: { message: "cannot be empty." }
+
+	# Use this method to Patherize a string
+	def get_destination_path 
+		Pathname.new(self.destination_path)
+	end
+
+	def get_source_path
+		Pathname.new(self.source_path)
+	end
 
 	def transfer
 		attributes = {}
 		attributes[:start_time] =  Time.now
 		begin 
-			download_path = self.source_connector.download_and_close(self.item_name)
+			download_path = self.source_connector.download_and_close(self.source_path)
 			self.destination_connector.upload_and_close(download_path)
 			attributes[:end_time] = Time.now
 			attributes[:status] = "Transfer successful"
@@ -38,7 +47,7 @@ class Transfer < ActiveRecord::Base
 			user_id: self.user_id, 
 			transfer_id: self.id, 
 			status: attributes[:status], 
-			item_name: self.item_name, 
+			source_path: self.source_path, 
 			item_size: "", 
 			backup_start_time: attributes[:start_time], 
 			backup_end_time: attributes[:end_time],

@@ -11,7 +11,7 @@
 			<tr>
 				<td><%= backup.source_connector.name %></td>
 				<td><%= backup.destination_connector.name %></td>
-				<td><%= backup.item_name %></td>
+				<td><%= backup.source_path %></td>
 				<td><%= backup.frequency %></td>
 			</tr>
 		<% end %>
@@ -28,7 +28,7 @@
 		<% @backups.each do |backup| %>
 			<% backup.transfer_logs.each do |log| %>
 			<tr>
-				<td><%= log.item_name %></td>
+				<td><%= log.source_path %></td>
 				<td><%= log.status %></td>
 				<td><%= log.backup_start_time %></td>
 			</tr>
@@ -45,7 +45,7 @@
 	<% @transfers.each do |transfer| %>
 		<% transfer.transfer_logs.each do |log| %>
 		<tr>
-			<td><%= log.item_name %></td>
+			<td><%= log.source_path %></td>
 			<td><%= log.status %></td>
 			<td><%= log.backup_start_time %></td>
 		</tr>

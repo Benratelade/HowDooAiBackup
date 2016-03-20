@@ -20,7 +20,7 @@
 					<li class="collapsed" id="" role="root-folder"><a href="#" data-item-type="directory"  data="/">Root (/)</a><span id="root-contents"></span></li>
 				</ul>
 			</div>
-			<%= f.hidden_field :item_name, {class: 'selectable-item'} %>
+			<%= f.hidden_field :source_path, {class: 'selectable-item'} %>
 		</div><div class="connector" id="destination-connector">
 			<h4>Transfer to: </h4>
 			<%= f.collection_select(:destination_connector_id, @connectors, :id, :name, {prompt: "Please select"}) %>

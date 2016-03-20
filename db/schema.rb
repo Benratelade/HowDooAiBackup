@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160227231204) do
+ActiveRecord::Schema.define(version: 20160320013141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,13 +19,14 @@ ActiveRecord::Schema.define(version: 20160227231204) do
   create_table "connectors", force: :cascade do |t|
     t.string   "username"
     t.string   "password"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.integer  "user_id"
     t.string   "type"
     t.string   "host"
     t.integer  "port"
     t.string   "name"
+    t.string   "connector_type"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -48,7 +49,7 @@ ActiveRecord::Schema.define(version: 20160227231204) do
     t.string   "status"
     t.integer  "transfer_id"
     t.integer  "user_id"
-    t.string   "item_name"
+    t.string   "source_path"
     t.string   "item_size"
     t.datetime "backup_start_time"
     t.datetime "backup_end_time"
@@ -63,7 +64,7 @@ ActiveRecord::Schema.define(version: 20160227231204) do
     t.integer  "user_id"
     t.integer  "source_connector_id"
     t.integer  "destination_connector_id"
-    t.string   "item_name"
+    t.string   "source_path"
     t.string   "destination_path"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false

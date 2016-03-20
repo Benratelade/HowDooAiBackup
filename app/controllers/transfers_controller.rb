@@ -15,7 +15,7 @@ class TransfersController < ApplicationController
 		@transfer = current_user.transfers.where(
 			source_connector_id: transfers_params[:source_connector_id], 
 			destination_connector_id: transfers_params[:destination_connector_id], 
-			item_name: transfers_params[:item_name], 
+			source_path: transfers_params[:source_path], 
 			type: transfers_params[:type]
 			).first
 		if @transfer == nil
@@ -25,7 +25,6 @@ class TransfersController < ApplicationController
 		else
 			can_proceed = true
 		end
-		puts @transfer.to_yaml
 		if can_proceed
 			if @transfer.is_a? Backup
 				@transfer.next_backup_date = Date.today
@@ -47,11 +46,11 @@ class TransfersController < ApplicationController
 	end
 
 	def transfer_now
-		@transfer.transfer
+		Processors::TransferProcessor.process_transfer(@transfer)
 	end
 
 	private
 	def transfers_params
-		params.require(:transfer).permit(:source_connector_id, :destination_connector_id, :frequency, :item_name, :type)
+		params.require(:transfer).permit(:source_connector_id, :destination_connector_id, :frequency, :source_path, :type)
 	end
 end
